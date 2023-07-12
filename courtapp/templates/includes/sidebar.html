@@ -1,0 +1,62 @@
+{% load static i18n %}
+{% load static %}
+<div class="sidebar" data-color="purple" data-background-color="white" >
+      <div class="logo">
+        <a target="_blank" rel="noopener noreferrer" 
+           href="" class="simple-text logo-normal">
+          CourtApp
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item ">
+          <a class="nav-link btn btn-primary text-light "
+             href="{% url 'users:detail' request.user.username %}">
+             {% translate "Profile" %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-primary text-light"
+             href="{% url 'case_list' %}">
+            Cases
+            </a>
+        </li>
+        {% if request.user.is_clerk %}
+          <li class="nav-item">
+            <a class="nav-link btn btn-primary text-light"
+               href="{% url 'add_case' %}">
+              Add case
+              </a>
+          </li>
+        {% endif %}
+          <li class="nav-item ">
+            <a class="nav-link btn btn-danger text-light" href="{% url 'account_logout' %}" >
+              Logout  
+            </a>
+          </li>
+
+          
+
+        {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" 
+               href="{% url 'account_login' %}">
+              <i class="card-title" style="width: 200px;">Sign in</i>
+              <br>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"   
+               href="{% url 'account_signup' %}">
+              <i class="card-title" style="width: 200px;">Sign Up</i>
+              <br>
+            </a>
+          </li>          
+
+        {% endif %}
+        </ul>
+      </div>
+
+    </div>

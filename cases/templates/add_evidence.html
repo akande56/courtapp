@@ -1,0 +1,24 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Add Evidence
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h1>Add Evidence</h1>
+<br>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form | crispy}}
+    <button class=" btn btn-success" type="submit">Add Evidence</button>
+</form>
+
+<br>
+<a class="btn btn-primary" href="{% url 'case_detail' case_id=case.id %}">Back to Case Detail</a>
+  </div>
+</div>
+{% endblock content %}

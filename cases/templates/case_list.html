@@ -1,0 +1,72 @@
+{% extends 'base2.html' %}
+{% block title %}
+  Case Lists
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header card-header-primary">
+    <div class="card-title">
+      {% if request.user.is_clerk %}
+       <h1>Case List</h1>
+      {% endif %}
+      {% if request.user.is_judge or request.user.is_lawyer %}
+        <h1> Assigned Caeses</h1>
+      {% endif %}
+      {% if request.user.is_chief_judge %}
+        <h1>Cases in jurisdiction</h1>
+      {% endif %} 
+      {% if request.user.is_plaintief or request.user.is_defendant %}
+        <h1>Concerned cases</h1>
+      {% endif %}
+  
+
+    </div>
+  </div>
+  <div class="card-body">
+
+<ul class="list-group list-group-flush">
+  {% for case in case_list %}
+    <li class="list-group-item">
+      <h3>ID: {{case.id}}</h3>
+      <h4>{{ case.title }}</h4>
+      <p>Status: {{ case.status }}</p>
+      <p>Court: {{ case.court }}</p>
+      <p>State: {{ case.state }}</p>
+      <p>Category: {{ case.category }}</p>
+      <p>Plaintiff: {{ case.plaintiff }}</p>
+      <p>Defendant: {{ case.defendant }}</p>
+      <p>Assigned Lawyer: {{ case.assigned_lawyer }}</p>
+
+      <div class="btn-group" role="group">
+        <a class="btn btn-primary" href="{% url 'case_detail' case_id=case.id %}">View Case Detail</a>
+      
+      {% if request.user.is_clerk %}
+      <a class="btn btn-primary" href="{% url 'add_proceeding' case_id=case.id %}">Add Procedure</a>
+      <a class="btn btn-primary" href="{% url 'add_evidence' case_id=case.id %}">Add Evidence</a>
+      <a class="btn btn-primary" href="{% url 'add_hearing' case_id=case.id %}">Add Hearing</a>
+      <a class="btn btn-primary" href="{% url 'add_trial' case_id=case.id %}">Add Trial</a>
+
+      {% endif %}
+
+      {% if request.user.is_chief_judge %}
+      <a class="btn btn-primary" href="{% url 'assign_judge' case_id=case.id %}">Assign Judge</a>
+      {% endif %}
+      
+      
+      {% if request.user.is_judge %}
+      <a class="btn btn-primary" href="{% url 'assign_lawyer' case_id=case.id %}">Assign Lawyer</a>
+      {% endif %}
+      </div>
+        
+
+    
+    </li>
+  {% endfor %}
+</ul>
+  </div>
+</div>
+
+{% endblock content %}

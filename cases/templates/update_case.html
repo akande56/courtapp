@@ -1,0 +1,18 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+  <h1>Update Case: {{ case.title }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ formset.management_form }}
+
+    <h3>Proceedings</h3>
+    {% for form in formset %}
+      {{ form.as_table }}
+    {% endfor %}
+
+    <button class="btn btn-success" type="submit">Update Case</button>
+  </form>
+{% endblock content %}

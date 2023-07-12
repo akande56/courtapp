@@ -1,0 +1,23 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Update Evidence Status
+{% endblock title %}
+
+{% block inner %}
+  <h1>Update Evidence Status</h1>
+
+  <h3>Case: {{ case.title }}</h3>
+  <h4>Evidence: {{ evidence.description }}</h4>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-success" type="submit" value="Update Status">
+  </form>
+
+  <br><br>
+
+  <a class="btn btn-primary" href="{% url 'case_detail' case_id=case.id %}">Back to Case Detail</a>
+{% endblock inner %}

@@ -1,0 +1,97 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+  Case Detail: {{ case.title }}
+{% endblock title %}
+
+{% block content %}
+ <div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <div class="card-header card-header-primary">
+        <div class="card-title"><h1>Case: {{ case.title }}</h1></div>
+      </div>
+      <div class="card-body">
+        
+        Status: <p class="badge badge-primary h4">{{ case.status }}</p>
+      <p>Court: {{ case.court }}</p>
+      <p>State: {{ case.state }}</p>
+      <p>Category: {{ case.category }}</p>
+      <p>Plaintiff: {{ case.plaintiff }}</p>
+      <p>Defendant: {{ case.defendant }}</p>
+      <p>Assigned Lawyer: {{ case.assigned_lawyer }}</p>
+    
+      <h2 class="h2">Case Proceedings</h2>
+      {% if proceedings %}
+        <ul>
+          {% for proceeding in proceedings %}
+            <li>
+              <details>
+                <summary>{{ proceeding.description }}</summary>
+                <textarea rows="10" cols="90" readonly>{{ proceeding.description }}</textarea>
+                <p>Date Added: {{ proceeding.date_added }}</p>
+              </details>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No proceedings available.</p>
+      {% endif %}
+    
+      <h2>Evidence</h2>
+      {% if evidence %}
+        <ul>
+          {% for item in evidence %}
+            <li>
+              <p>Description: {{ item.description }}</p>
+              <p>Document: <a href="{{ item.document.url }}">{{ item.document.name }}</a></p>
+              Status:<p class="badge badge-primary h4"> {{item.status}}</p>
+              {% if request.user.is_judge %}
+              <p><a class="btn btn-primary" href="{% url 'update_evidence_status' case_id=case.id evidence_id=item.id %}">Update Evidence Status</a></p>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No evidence available.</p>
+      {% endif %}
+    
+      <h2>Hearings</h2>
+      {% if hearings %}
+        <ul>
+          {% for hearing in hearings %}
+            <li>
+              <details>
+                <summary>Date: {{ hearing.date }}</summary>
+                <p>Time: {{ hearing.time }}</p>
+                <p>Location: {{ hearing.location }}</p>
+                <p>Presiding Judge: {{hearing.presiding_judge}} </p>
+              </details>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No hearings available.</p>
+      {% endif %}
+    
+    <h2>Trials</h2>
+    {% if trials %}
+      <ul>
+        {% for trial in trials %}
+          <li>
+            <p>Date: {{ trial.date }}</p>
+            <p>Location: {{ trial.location }}</p>
+            <p>Result: {{ trial.result }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No trials available for this case.</p>
+    {% endif %}
+    
+      <a href="{% url 'case_list' %}">Back to Case List</a>
+      </div>
+     </div> 
+  </div>
+ </div> 
+{% endblock content %}
