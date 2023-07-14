@@ -33,6 +33,7 @@ class Case(models.Model):
     judge = models.ForeignKey(User, on_delete=models.CASCADE, related_name='judged_cases', null=True, limit_choices_to={'is_judge': True})
     assigned_lawyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_cases', null=True, limit_choices_to={'is_lawyer': True})
     clerk = models.ForeignKey(User, on_delete=models.CASCADE, related_name='clerk_filed_cases', limit_choices_to={'is_clerk': True})
+    case_number = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title
